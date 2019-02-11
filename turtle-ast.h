@@ -76,6 +76,11 @@ struct ast {
 // do not forget to destroy properly! no leaks allowed!
 void ast_destroy(struct ast *self);
 
+
+//destruct a node in an ast
+void ast_node_destroy();
+
+
 // the execution context
 struct context {
   double x;
@@ -92,6 +97,11 @@ void context_create(struct context *self);
 
 // print the tree as if it was a Turtle program
 void ast_print(const struct ast *self);
+
+
+//print children of a node of an ast
+void ast_children_node_print(const struct ast* child);
+
 
 // evaluate the tree and generate some basic primitives
 void ast_eval(const struct ast *self, struct context *ctx);
