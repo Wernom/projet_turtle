@@ -17,32 +17,23 @@ struct ast_node *make_expr_value(double value) {
 }
 
 
-void ast_node_destroy(struct tree_node *self) {
+void ast_node_destroy(struct ast_node *self) {
     if (self) {
-        tree_destroy_node(self->right);
-        self->right=NULL;
-        tree_destroy_node(self->left);
-        self->left=NULL;
+        if(self->children_count!=0) {
+            for (int i = 0; i < self->children_count; ++i) {
+                ast_node_destroy(self->children[i]);
+            }
+            free(self->children);
+        }
+        if(self->next) {
+            ast_node_destroy(self->next);
+        }
         free(self);
     }
 }
 
 void ast_destroy(struct ast *self) {
-        ast_node_destroy()(self->root);
-    }
-
-    void tree_destroy_node(struct tree_node *self)
-    {
-        if (self)
-        {
-            tree_destroy_node(self->right);
-            self->right=NULL;
-            tree_destroy_node(self->left);
-            self->left=NULL;
-            free(self);
-        }
-    }
-
+        ast_node_destroy(self);
 }
 
 /*
@@ -64,6 +55,13 @@ void ast_eval(const struct ast *self, struct context *ctx) {
 /*
  * print
  */
+
+
+void ast_children_node_print(const struct ast* child,int sizeOfChild){
+
+
+}
+
 
 void ast_print(const struct ast *self) {
 
